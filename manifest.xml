@@ -1,0 +1,14 @@
+<package>
+  <description brief="qex">
+
+     qex
+
+  </description>
+  <author>yoos</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/qex</url>
+
+</package>
+
+
