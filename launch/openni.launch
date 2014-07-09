@@ -1,0 +1,11 @@
+<launch>
+	<include file="$(find openni2_launch)/launch/openni2.launch">
+		<!-- Hardware depth registration -->
+		<arg name="depth_registration" value="true" />
+		<!-- Driver parameters -->
+		<arg name="color_depth_synchronization"     default="true" />
+		<arg name="auto_exposure"                   default="true" />
+		<arg name="auto_white_balance"              default="true" />
+	</include>
+</launch>
+

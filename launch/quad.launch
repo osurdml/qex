@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find qex)/launch/slam.launch">
+		<param name="/config/use_gui" value="false"/>
+	</include>
+</launch>
+
