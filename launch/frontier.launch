@@ -1,6 +1,6 @@
 <launch>
     <!-- Set to your sensor's range -->
-    <arg name="sensor_range" default="1.0"/>
+    <arg name="sensor_range" default="3.0"/>
 
     <node pkg="frontier_exploration" type="explore_client" name="explore_client" output="screen"/>
 
@@ -13,15 +13,15 @@
         <rosparam ns="explore_costmap" subst_value="true">
             #Sample parameters
             footprint: [[0.1, 0.0], [0.0, 0.1], [0.0, -0.1], [-0.1, 0.0]]
-            robot_radius: 0.10
+            robot_radius: 0.3
             
-            transform_tolerance: 1.0
+            transform_tolerance: 1.5 # RGBDSLAM localization is slow
             update_frequency: 5.0
             publish_frequency: 5.0
 
             global_frame: map
             robot_base_frame: camera_link
-            resolution: 0.05
+            resolution: 0.1
 
             rolling_window: true
             track_unknown_space: true
