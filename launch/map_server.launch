@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find qex)/map_server_params.yaml">
+  </node>
+</launch>
