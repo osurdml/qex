@@ -3,7 +3,6 @@
     <arg name="sensor_range" default="3.0"/>
 
     <node pkg="frontier_exploration" type="explore_client" name="explore_client" output="screen"/>
-
     <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen" >
 
         <param name="frequency" type="double" value="2.0"/>
@@ -14,20 +13,19 @@
             #Sample parameters
             footprint: [[0.1, 0.0], [0.0, 0.1], [0.0, -0.1], [-0.1, 0.0]]
             robot_radius: 0.3
-            
+
             transform_tolerance: 1.5 # RGBDSLAM localization is slow
-            update_frequency: 5.0
-            publish_frequency: 5.0
+            update_frequency: 3.0
+            publish_frequency: 3.0
 
             global_frame: map
             robot_base_frame: camera_link
-            resolution: 0.1
+            resolution: 0.2
 
             rolling_window: true
             track_unknown_space: true
 
-            plugins: 
-         
+            plugins:
                 - {name: explore_boundary, type: "frontier_exploration::BoundedExploreLayer"}
                 - {name: sensor,           type: "costmap_2d::ObstacleLayer"}
                 - {name: inflation,        type: "costmap_2d::InflationLayer"}
