@@ -5,7 +5,7 @@
     <arg name="rgb_camera_info_url" value="file://$(find rgbdslam)/xtion_calibrated/cal.yml" />
     <arg name="depth_camera_info_url" value="file://$(find rgbdslam)/xtion_calibrated/cal_ir.yml" />
   </include>
-  <node pkg="rgbdslam" type="rgbdslam" name="rgbdslam" cwd="node" required="true" output="screen" no-launch-prefix="/usr/bin/xterm -e gdb -ex run -args">
+  <node pkg="rgbdslam" type="rgbdslam" name="rgbdslam" cwd="node" required="true" output="log" no-launch-prefix="/usr/bin/xterm -e gdb -ex run -args">
     <param name="config/topic_image_mono"              value="/camera/rgb/image_rect_color"/> <!--could also be color -->
     <param name="config/topic_image_depth"             value="/camera/depth_registered/hw_registered/image_rect_raw"/>
     <param name="config/topic_points"                  value=""/> <!--if empty, poincloud will be reconstructed from image and depth -->
