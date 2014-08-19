@@ -1,6 +1,8 @@
 <!-- This file demonstrates the use of SIFT features for online SLAM with a Kinect. 
      The openni driver is started from this file -->
 <launch>
+  <arg name="use_gui" default="true"/>
+
   <include file="$(find openni_launch)/launch/openni.launch">
     <arg name="rgb_camera_info_url" value="file://$(find rgbdslam)/xtion_calibrated/cal.yml" />
     <arg name="depth_camera_info_url" value="file://$(find rgbdslam)/xtion_calibrated/cal_ir.yml" />
@@ -50,6 +52,7 @@
     <param name="config/observability_threshold"       value="-0.5"/>  -->
 
     <!-- Visualization -->
+    <param name="config/use_gui"                       value="$(arg use_gui)"/>
     <param name="config/visualization_skip_step"       value="1"/> <!-- Draw only every nth pointcloud row and line, high values require higher squared_meshing_threshold. Increase if 3D rendering in GUI is slow. -->
     <param name="config/visualize_keyframes_only"      value="true"/>
     <param name="config/squared_meshing_threshold"     value="0.0009"/><!-- don't triangulate over depth jumps -->

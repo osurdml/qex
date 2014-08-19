@@ -1,6 +1,6 @@
 <launch>
 	<include file="$(find qex)/launch/slam.launch">
-		<param name="/config/use_gui" value="true"/>
+		<arg name="use_gui" value="false"/>
 	</include>
 	<include file="$(find qex)/launch/octomap_server.launch"/>
 	<include file="$(find qex)/launch/map_server.launch"/>
