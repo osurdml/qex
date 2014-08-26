@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="master_discovery_fkie" type="master_discovery" name="qex_master_discovery" output="screen"/>
+    <node pkg="master_sync_fkie" type="master_sync" name="qex_master_sync" output="screen" respawn="true"/>
+</launch>
+
