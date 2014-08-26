@@ -6,5 +6,6 @@
 	<include file="$(find qex)/launch/map_server.launch"/>
 	<include file="$(find qex)/launch/frontier.launch"/>
 	<include file="$(find qex)/launch/move_base.launch"/>
+	<include file="$(find qex)/launch/multimaster.launch"/>
 </launch>
 
