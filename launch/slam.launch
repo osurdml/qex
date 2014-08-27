@@ -1,60 +1,62 @@
 <!-- This file demonstrates the use of SIFT features for online SLAM with a Kinect. 
      The openni driver is started from this file -->
 <launch>
-  <arg name="use_gui" default="true"/>
+    <group ns="$(env HOSTNAME)">
+        <arg name="use_gui" default="true"/>
 
-  <include file="$(find openni_launch)/launch/openni.launch">
-    <arg name="rgb_camera_info_url" value="file://$(find rgbdslam)/xtion_calibrated/cal.yml" />
-    <arg name="depth_camera_info_url" value="file://$(find rgbdslam)/xtion_calibrated/cal_ir.yml" />
-  </include>
-  <node pkg="rgbdslam" type="rgbdslam" name="rgbdslam" cwd="node" required="true" output="log" no-launch-prefix="/usr/bin/xterm -e gdb -ex run -args">
-    <param name="config/topic_image_mono"              value="/camera/rgb/image_rect_color"/> <!--could also be color -->
-    <param name="config/topic_image_depth"             value="/camera/depth_registered/hw_registered/image_rect_raw"/>
-    <param name="config/topic_points"                  value=""/> <!--if empty, poincloud will be reconstructed from image and depth -->
-    <param name="config/min_time_reported"             value="0.01"/><!-- for easy runtime analysis -->
+        <include file="$(find openni_launch)/launch/openni.launch">
+            <arg name="rgb_camera_info_url" value="file://$(find rgbdslam)/xtion_calibrated/cal.yml" />
+            <arg name="depth_camera_info_url" value="file://$(find rgbdslam)/xtion_calibrated/cal_ir.yml" />
+        </include>
+        <node pkg="rgbdslam" type="rgbdslam" name="rgbdslam" cwd="node" required="true" output="log" no-launch-prefix="/usr/bin/xterm -e gdb -ex run -args">
+            <param name="config/topic_image_mono"              value="/camera/rgb/image_rect_color"/> <!--could also be color -->
+            <param name="config/topic_image_depth"             value="/camera/depth_registered/hw_registered/image_rect_raw"/>
+            <param name="config/topic_points"                  value=""/> <!--if empty, poincloud will be reconstructed from image and depth -->
+            <param name="config/min_time_reported"             value="0.01"/><!-- for easy runtime analysis -->
 
-    <!-- Input data -->
-    <param name="config/drop_async_frames"             value="true"/>
-    <param name="config/min_translation_meter"         value="0.02"/><!-- frames with motion less than this, will be omitted -->
-    <param name="config/min_rotation_degree"           value="0.5"/><!-- frames with motion less than this, will be omitted -->
-    <param name="config/maximum_depth"                 value="3.0"/>
+            <!-- Input data -->
+            <param name="config/drop_async_frames"             value="true"/>
+            <param name="config/min_translation_meter"         value="0.02"/><!-- frames with motion less than this, will be omitted -->
+            <param name="config/min_rotation_degree"           value="0.5"/><!-- frames with motion less than this, will be omitted -->
+            <param name="config/maximum_depth"                 value="3.0"/>
 
-    <!-- Feature tracking -->
-    <param name="config/feature_detector_type"         value="SURF"/><!-- If SIFTGPU is enabled in CMakeLists.txt, use SURF here -->
-    <param name="config/feature_extractor_type"        value="SURF"/><!-- If SIFTGPU is enabled in CMakeLists.txt, use SURF here -->
-    <param name="config/matcher_type"                  value="FLANN"/><!-- FLANN (not avail for ORB features), SIFTGPU (only for SIFTGPU detector)  or BRUTEFORCE-->
-    <param name="config/nn_distance_ratio"             value="0.9"/> <!-- Feature correspondence is valid if distance to nearest neighbour is smaller than this parameter times the distance to the 2nd neighbour -->
-    <param name="config/max_connections"               value="10"/> <!-- Stop after this many successfully found spatial relations -->
-    <param name="config/max_keypoints"                 value="300"/><!-- Extract no more than this many keypoints (not honored by SIFTGPU)-->
-    <param name="config/min_matches"                   value="10"/><!-- Prune unreliable transformations due to too few feature matches. -->
-    <param name="config/sufficient_matches"            value="100"/><!-- Instead of matching all new descriptors against all of a previous node in one step, sufficient_matches+100 of the new descriptors are iteratively compared to all of the previous node until sufficient_matches are found. Setting this parameter low (e.g. 2x min_matches) speeds up comparisons of frames with many matches, but with a potential loss of accuracy, as the transformation is estimated from less features. Set it to max_keypoints for maximum accuracy -->
-    <!--<param name="config/adjuster_max_iterations"       value="3"/>-->
+            <!-- Feature tracking -->
+            <param name="config/feature_detector_type"         value="SURF"/><!-- If SIFTGPU is enabled in CMakeLists.txt, use SURF here -->
+            <param name="config/feature_extractor_type"        value="SURF"/><!-- If SIFTGPU is enabled in CMakeLists.txt, use SURF here -->
+            <param name="config/matcher_type"                  value="FLANN"/><!-- FLANN (not avail for ORB features), SIFTGPU (only for SIFTGPU detector)  or BRUTEFORCE-->
+            <param name="config/nn_distance_ratio"             value="0.9"/> <!-- Feature correspondence is valid if distance to nearest neighbour is smaller than this parameter times the distance to the 2nd neighbour -->
+            <param name="config/max_connections"               value="10"/> <!-- Stop after this many successfully found spatial relations -->
+            <param name="config/max_keypoints"                 value="300"/><!-- Extract no more than this many keypoints (not honored by SIFTGPU)-->
+            <param name="config/min_matches"                   value="10"/><!-- Prune unreliable transformations due to too few feature matches. -->
+            <param name="config/sufficient_matches"            value="100"/><!-- Instead of matching all new descriptors against all of a previous node in one step, sufficient_matches+100 of the new descriptors are iteratively compared to all of the previous node until sufficient_matches are found. Setting this parameter low (e.g. 2x min_matches) speeds up comparisons of frames with many matches, but with a potential loss of accuracy, as the transformation is estimated from less features. Set it to max_keypoints for maximum accuracy -->
+            <!--<param name="config/adjuster_max_iterations"       value="3"/>-->
 
-    <!-- Algorithm settings -->
-    <param name="config/cloud_creation_skip_step"      value="2"/>
-    <param name="config/data_skip_step"                value="1"/> <!-- Higher values here make it harder to track features and reduce accuracy. -->
-    <param name="config/optimizer_skip_step"           value="1"/> <!-- Optimize every n-th frame. Set high for offline operation. -->
-    <param name="config/optimizer_iterations"          value="2"/> <!-- Maximum number of iterations in online operation (i.e., does not affect final optimization in batch mode) -->
-    <param name="config/backend_solver"                value="pcg"/> <!-- Which solver to use in g2o for matrix inversion: "csparse" , "cholmod" or "pcg"  -->
-    <param name="config/store_pointclouds"             value="true"/> <!-- if, e.g., only trajectory is required, setting this to false saves lots of memory -->
+            <!-- Algorithm settings -->
+            <param name="config/cloud_creation_skip_step"      value="2"/>
+            <param name="config/data_skip_step"                value="1"/> <!-- Higher values here make it harder to track features and reduce accuracy. -->
+            <param name="config/optimizer_skip_step"           value="1"/> <!-- Optimize every n-th frame. Set high for offline operation. -->
+            <param name="config/optimizer_iterations"          value="2"/> <!-- Maximum number of iterations in online operation (i.e., does not affect final optimization in batch mode) -->
+            <param name="config/backend_solver"                value="pcg"/> <!-- Which solver to use in g2o for matrix inversion: "csparse" , "cholmod" or "pcg"  -->
+            <param name="config/store_pointclouds"             value="true"/> <!-- if, e.g., only trajectory is required, setting this to false saves lots of memory -->
 
-    <param name="config/octomap_online_creation"       value="false"/> 
-    <param name="config/octomap_resolution"            value="0.05"/>
+            <param name="config/octomap_online_creation"       value="false"/> 
+            <param name="config/octomap_resolution"            value="0.05"/>
 
-    <param name="config/use_icp"                       value="false"/> <!-- Ignored if ICP is not compiled in (see top of CMakeLists.txt) -->
-    <param name="config/icp_method"                    value="icp"/> <!-- For testing different variants-->
-    <param name="config/gicp_max_cloud_size"           value="500000"/> <!-- Ignored if ICP is not compiled in (see top of CMakeLists.txt) -->
-    <param name="config/ransac_iterations"             value="500"/> <!-- these are fast, so high values are ok -->
-    <param name="config/g2o_transformation_refinement" value="10"/> <!-- -->
-    <param name="config/predecessor_candidates"        value="3"/> <!-- Search through this many immediate predecessor nodes for correspondences. -->
-    <param name="config/neighbor_candidates"           value="3"/> <!-- Search through this many graph neighbor nodes for corespondences. -->
-    <param name="config/min_sampled_candidates"        value="3"/> <!-- Search through this many uniformly sampled nodes for correspondences. -->
-    <param name="config/observability_threshold"       value="-0.5"/>  -->
+            <param name="config/use_icp"                       value="false"/> <!-- Ignored if ICP is not compiled in (see top of CMakeLists.txt) -->
+            <param name="config/icp_method"                    value="icp"/> <!-- For testing different variants-->
+            <param name="config/gicp_max_cloud_size"           value="500000"/> <!-- Ignored if ICP is not compiled in (see top of CMakeLists.txt) -->
+            <param name="config/ransac_iterations"             value="500"/> <!-- these are fast, so high values are ok -->
+            <param name="config/g2o_transformation_refinement" value="10"/> <!-- -->
+            <param name="config/predecessor_candidates"        value="3"/> <!-- Search through this many immediate predecessor nodes for correspondences. -->
+            <param name="config/neighbor_candidates"           value="3"/> <!-- Search through this many graph neighbor nodes for corespondences. -->
+            <param name="config/min_sampled_candidates"        value="3"/> <!-- Search through this many uniformly sampled nodes for correspondences. -->
+            <param name="config/observability_threshold"       value="-0.5"/>  -->
 
-    <!-- Visualization -->
-    <param name="config/use_gui"                       value="$(arg use_gui)"/>
-    <param name="config/visualization_skip_step"       value="1"/> <!-- Draw only every nth pointcloud row and line, high values require higher squared_meshing_threshold. Increase if 3D rendering in GUI is slow. -->
-    <param name="config/visualize_keyframes_only"      value="true"/>
-    <param name="config/squared_meshing_threshold"     value="0.0009"/><!-- don't triangulate over depth jumps -->
-  </node>
+            <!-- Visualization -->
+            <param name="config/use_gui"                       value="$(arg use_gui)"/>
+            <param name="config/visualization_skip_step"       value="1"/> <!-- Draw only every nth pointcloud row and line, high values require higher squared_meshing_threshold. Increase if 3D rendering in GUI is slow. -->
+            <param name="config/visualize_keyframes_only"      value="true"/>
+            <param name="config/squared_meshing_threshold"     value="0.0009"/><!-- don't triangulate over depth jumps -->
+        </node>
+    </group>
 </launch>
