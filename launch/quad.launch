@@ -1,10 +1,12 @@
 <launch>
+  <group ns="$(env HOSTNAME)">
 	<include file="$(find qex)/launch/slam.launch">
-		<arg name="use_gui" value="false"/>
+		<arg name="use_gui" value="true"/>
 	</include>
 	<include file="$(find qex)/launch/octomap_server.launch"/>
 	<include file="$(find qex)/launch/map_server.launch"/>
 	<include file="$(find qex)/launch/frontier.launch"/>
 	<include file="$(find qex)/launch/move_base.launch"/>
+  </group>
 </launch>
 
