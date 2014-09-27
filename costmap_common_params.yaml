@@ -1,8 +1,9 @@
-obstacle_range: 3.0
-raytrace_range: 3.0
-footprint: [[-0.1, -0.1], [-0.1, 0.1], [0.1, 0.1], [0.1, -0.1]]
+obstacle_range: 10.0
+raytrace_range: 10.0
+footprint: [[-0.3, -0.3], [-0.3, 0.3], [0.3, 0.3], [0.3, -0.3]]
 robot_radius: 0.5
-inflation_radius: 0.55
+inflation_radius: 1.0
+# max_obstacle_height: 1.0
 
 transform_tolerance: 1.5 # RGBDSLAM localization is slow
 
