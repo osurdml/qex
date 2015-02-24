@@ -7,4 +7,4 @@ inflation_radius: 0.55
 transform_tolerance: 1.5 # RGBDSLAM localization is slow
 
 observation_sources: octomap
-octomap: {data_type: PointCloud2, topic: '/octomap_point_cloud_centers', clearing: true, marking: true}
+octomap: {data_type: PointCloud2, topic: '/Q1/octomap_point_cloud_centers', clearing: true, marking: true}

@@ -37,7 +37,7 @@
             sensor:
                 observation_sources: octomap
                 octomap: {data_type: PointCloud2, topic:
-                '/octomap_point_cloud_centers', clearing: true, marking: true}
+                '/Q1/octomap_point_cloud_centers', clearing: true, marking: true}
 
             inflation:
                 inflation_radius: 0.15
