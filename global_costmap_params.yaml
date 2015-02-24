@@ -1,6 +1,6 @@
 global_costmap:
   global_frame: /map
-  robot_base_frame: camera_link
+  robot_base_frame: /fcu
   update_frequency: 3.0
   publish_frequency: 3.0
   static_map: true

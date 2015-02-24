@@ -18,8 +18,8 @@
             update_frequency: 3.0
             publish_frequency: 3.0
 
-            global_frame: map
-            robot_base_frame: camera_link
+            global_frame: /map
+            robot_base_frame: /fcu
             resolution: 0.2
 
             rolling_window: true
