@@ -41,20 +41,20 @@ mission:
 # None
 
 # *_position
-#position:
-#  # local_position
-#  local:
-#    send_tf: false
-#    frame_id: "local_origin"
-#    child_frame_id: "fcu"
-#
-#  # vision_pose_estimate [extra]
-#  vision:
-#    pose_with_covariance: false
-#    listen_tf: false
-#    frame_id: "local_origin"
-#    child_frame_id: "vision"
-#    tf_rate_limit: 10.0
+position:
+  # local_position
+  local:
+    send_tf: true
+    frame_id: "map"
+    child_frame_id: "fcu"
+
+  # vision_pose_estimate [extra]
+  vision:
+    pose_with_covariance: false
+    listen_tf: true
+    frame_id: "map"
+    child_frame_id: "camera_link_back"
+    tf_rate_limit: 10.0
 
 # *_setpoint
 setpoint:
@@ -78,9 +78,9 @@ setpoint:
 #    child_frame_id: "setpoint"
 #    tf_rate_limit: 10.0
 #
-#  # setpoint_velocity
-   velocity:
-     None
+  # setpoint_velocity
+  velocity:
+    None
 
 # safety_area
 #safety_area:
